@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Platform</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color:#000c43;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 1200px;
+            display: grid;
+            grid-template-columns: 3fr 1fr;
+            overflow: hidden;
+        }
+
+        .question-section {
+            padding: 30px;
+        }
+
+        .question-header h1 {
+            font-size: 24px;
+            color: #333;
+            border-left: 4px solid #007bff;
+            padding-left: 10px;
+            margin-bottom: 20px;
+        }
+
+        .question h2 {
+            font-size: 20px;
+            color: #444;
+        }
+
+        .options {
+            list-style: none;
+            padding: 0;
+        }
+
+        .options li {
+            background: #f8f9fa;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .options li:hover {
+            background: #e2e6ea;
+        }
+
+        .navigation button {
+            padding: 10px 20px;
+            border: 2px solid #6b39e0;
+            background-color: #f1f1f1;
+            color: #6b39e0;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            outline: none;
+        }
+        
+        .navigation button:hover {
+            background-color: #e0e0e0;
+            color: #000;
+        }
+        
+        .navigation button:disabled {
+            background-color: #f9f9f9 !important;
+            color: #6b39e0 !important;
+            cursor: not-allowed !important;
+            border: 2px solid #f0f0f0 !important;
+            box-shadow: none !important;
+        }
+        
+        
+        
+        
+        
+
+        .submit-btn {
+            display: block;
+            width: 100%;
+            padding: 15px; /* Increased padding */
+            background-color: #000c43;
+            color: white;
+            text-align: center;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 20px;
+            font-size: 1.2rem; /* Increased font size */
+            font-weight: bold; /* Make text bolder */
+        }
+
+        .submit-btn:hover {
+            background-color: #218838;
+        }
+
+        .sidebar {
+            background: linear-gradient(145deg, #000c43, #6b39e0);
+            color: #fff;
+            padding: 20px;
+            overflow-y: auto;
+            height: 100%;
+            box-shadow: 0 4px 12px rgba(86, 36, 208, 0.3);
+            transition: background 0.3s;
+        }
+        
+        .sidebar h2 {
+            font-size: 22px;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+        
+        .sidebar ul li {
+            color: #fff;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        
+        .sidebar ul li:hover {
+            color: #62d1ff;
+        }
+        
+
+        .pagination-table td {
+            background: white;
+            color: #007bff;
+            padding: 10px;
+            margin: 5px;
+            text-align: center;
+            max-width: 1200px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .pagination-table {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+        }
+
+        .pagination-table td.active,
+        .pagination-table td:hover {
+            background: #0056b3;
+            color: white;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="question-section" id="question-section">
+            <div class="question-header">
+                <h1>Topicwise Questions</h1>
+            </div>
+        </div>
+        <div class="sidebar">
+            <h2>Questions</h2>
+            <table class="pagination-table" id="pagination-table"></table>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+    {
+        question: "Which vitamin is known as the sunshine vitamin?",
+        options: ["Vitamin A", "Vitamin B", "Vitamin C", "Vitamin D"],
+        answer: 4
+    },
+    {
+        question: "What is the chemical symbol for water?",
+        options: ["H2O", "O2", "CO2", "NaCl"],
+        answer: 1
+    },
+    {
+        question: "Which organ in the human body is primarily responsible for detoxification?",
+        options: ["Liver", "Heart", "Lungs", "Kidneys"],
+        answer: 1
+    },
+    {
+        question: "Which element has the chemical symbol 'O'?",
+        options: ["Gold", "Oxygen", "Osmium", "Zinc"],
+        answer: 2
+    },
+    {
+        question: "What is the capital city of France?",
+        options: ["Rome", "Berlin", "Paris", "Madrid"],
+        answer: 3
+    },
+    {
+        question: "What is the hardest natural substance on Earth?",
+        options: ["Gold", "Iron", "Diamond", "Platinum"],
+        answer: 3
+    },
+    {
+        question: "Which gas do plants primarily use for photosynthesis?",
+        options: ["Oxygen", "Carbon Dioxide", "Nitrogen", "Hydrogen"],
+        answer: 2
+    },
+    {
+        question: "What is the smallest unit of life in the human body?",
+        options: ["Tissue", "Cell", "Organ", "Molecule"],
+        answer: 2
+    },
+    {
+        question: "Which planet is known as the Red Planet?",
+        options: ["Earth", "Mars", "Jupiter", "Venus"],
+        answer: 2
+    },
+    {
+        question: "What is the boiling point of water at sea level?",
+        options: ["90°C", "100°C", "110°C", "120°C"],
+        answer: 2
+    },
+    {
+        question: "Who proposed the theory of evolution by natural selection?",
+        options: ["Isaac Newton", "Albert Einstein", "Charles Darwin", "Galileo Galilei"],
+        answer: 3
+    },
+    {
+        question: "Which gas is most abundant in the Earth's atmosphere?",
+        options: ["Oxygen", "Carbon Dioxide", "Nitrogen", "Hydrogen"],
+        answer: 3
+    },
+    {
+        question: "What is the chemical symbol for sodium?",
+        options: ["Na", "S", "N", "Sa"],
+        answer: 1
+    },
+    {
+        question: "Who is known as the Father of Geometry?",
+        options: ["Pythagoras", "Euclid", "Archimedes", "Aristotle"],
+        answer: 2
+    },
+    {
+        question: "Which continent is the largest by area?",
+        options: ["Africa", "Asia", "North America", "Europe"],
+        answer: 2
+    },
+    {
+        question: "What is the powerhouse of the cell?",
+        options: ["Nucleus", "Mitochondria", "Ribosome", "Chloroplast"],
+        answer: 2
+    },
+    {
+        question: "Which ocean is the deepest in the world?",
+        options: ["Indian Ocean", "Atlantic Ocean", "Arctic Ocean", "Pacific Ocean"],
+        answer: 4
+    },
+    {
+        question: "What is the currency of Japan?",
+        options: ["Dollar", "Euro", "Yen", "Won"],
+        answer: 3
+    }
+];
+
+let currentQuestion = 0;
+let answers = {};
+
+window.onload = function() {
+    displayCurrentQuestion();
+    generatePagination();
+    updatePagination();
+};
+
+function displayCurrentQuestion() {
+    const questionSection = document.getElementById('question-section');
+    questionSection.innerHTML = '';
+
+    const q = questions[currentQuestion];
+    const questionEl = document.createElement('div');
+    questionEl.className = 'question';
+    questionEl.innerHTML = `
+        <h2>${currentQuestion + 1}. ${q.question}</h2>
+        <ul class="options">
+            ${q.options.map((option, i) => `
+                <li>
+                    <label>
+                        <input type="radio" name="question${currentQuestion}" value="${i + 1}"
+                        ${answers[currentQuestion] == i + 1 ? 'checked' : ''} 
+                        onchange="saveAnswer(${currentQuestion}, ${i + 1})">
+                        ${option}
+                    </label>
+                </li>
+            `).join('')}
+       </ul>
+    <div class="navigation">
+        <button onclick="prevQuestion()">Previous</button>
+        <button onclick="nextQuestion()" ${currentQuestion === questions.length - 1 ? 'disabled' : ''}>Next</button>
+    </div>
+    <button class="submit-btn" onclick="submitQuiz()">Submit</button>
+    `;
+    questionSection.appendChild(questionEl);
+    document.querySelector('.navigation button').disabled = currentQuestion === questions.length - 1;
+ 
+}
+
+function saveAnswer(qIndex, selectedOption) {
+    answers[qIndex] = selectedOption;
+}
+
+function nextQuestion() {
+    if (currentQuestion < questions.length - 1) {
+        currentQuestion++;
+        displayCurrentQuestion();
+        updatePagination();
+    }
+}
+
+function prevQuestion() {
+    if (currentQuestion > 0) {
+        currentQuestion--;
+        displayCurrentQuestion();
+        updatePagination();
+    }
+}
+
+function generatePagination() {
+    const paginationTable = document.getElementById('pagination-table');
+    paginationTable.innerHTML = '';
+
+    questions.forEach((_, index) => {
+        const td = document.createElement('td');
+        td.innerText = index + 1;
+        td.onclick = () => goToQuestion(index);
+        paginationTable.appendChild(td);
+    });
+}
+
+function goToQuestion(index) {
+    currentQuestion = index;
+    displayCurrentQuestion();
+    updatePagination();
+}
+
+function updatePagination() {
+    document.querySelectorAll('#pagination-table td').forEach((cell, index) => {
+        cell.classList.toggle('active', index === currentQuestion);
+    });
+}
+
+function submitQuiz() {
+    let score = 0;
+    questions.forEach((q, index) => {
+        if (answers[index] == q.answer) {
+            score++;
+        }
+    });
+    let percentageScore = Math.round((score / questions.length) * 100);
+    window.location.href = `score.html?score=${percentageScore}&answers=${JSON.stringify(answers)}&questions=${JSON.stringify(questions)}`;
+}
+
+
+    </script>
+</body>
+</html>

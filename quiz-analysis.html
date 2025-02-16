@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Analysis</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #000c43;
+            margin: 0;
+            padding: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 800px;
+            padding: 30px;
+            position: relative;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .question-analysis {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .question-analysis h2 {
+            color: #007bff;
+            margin-top: 0;
+        }
+
+        .options {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .option {
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+        }
+
+        .correct {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+        }
+
+        .incorrect {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+        }
+
+        .selected {
+            font-weight: bold;
+        }
+
+        .summary {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .retry-btn {
+            display: block;
+            width: 200px;
+            margin: 20px auto 0;
+            padding: 10px;
+            background: linear-gradient(145deg, #000c43, #6b39e0);
+            color: white;
+            text-align: center;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            box-shadow: 0 4px 12px rgba(86, 36, 208, 0.3);
+            font-size: 1rem;
+            font-weight: 600;
+        }
+        
+        .retry-btn:hover {
+            background: linear-gradient(145deg, #000c43, #5624d0);
+            box-shadow: 0 6px 20px rgba(86, 36, 208, 0.4);
+            transform: scale(1.05);
+        }
+        
+
+        
+        
+    </style>
+</head>
+<body>
+
+   
+
+    <div class="container" id="cardContainer">
+        <h1>Quiz Analysis</h1>
+        <div id="analysis-container"></div>
+        <div class="summary" id="summary"></div>
+        <a href="QUIZ.html" class="retry-btn">Retry Quiz</a>
+        <a href="home.html" class="retry-btn" style="background-color: #007bff;">Home</a>
+    </div>
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+        
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const answers = JSON.parse(urlParams.get('answers') || '{}');
+            const questions = JSON.parse(urlParams.get('questions') || '[]');
+            
+            let correctAnswers = 0;
+            const analysisContainer = document.getElementById('analysis-container');
+
+            questions.forEach((q, index) => {
+                const userAnswer = answers[index];
+                const isCorrect = userAnswer == q.answer;
+                if (isCorrect) correctAnswers++;
+
+                const questionAnalysis = document.createElement('div');
+                questionAnalysis.className = 'question-analysis';
+                questionAnalysis.innerHTML = `
+                    <h2>Question ${index + 1}</h2>
+                    <p>${q.question}</p>
+                    <ul class="options">
+                        ${q.options.map((option, i) => `
+                            <li class="option ${i + 1 == q.answer ? 'correct' : ''} ${i + 1 == userAnswer ? 'selected' : ''}">
+                                ${option}
+                                ${i + 1 == q.answer ? ' ✓' : ''}
+                                ${i + 1 == userAnswer && i + 1 != q.answer ? ' ✗' : ''}
+                            </li>
+                        `).join('')}
+                    </ul>
+                    <p>${isCorrect ? 'Correct!' : 'Incorrect.'}</p>
+                `;
+                analysisContainer.appendChild(questionAnalysis);
+            });
+
+            const summary = document.getElementById('summary');
+            const percentage = Math.round((correctAnswers / questions.length) * 100);
+            summary.textContent = `You got ${correctAnswers} out of ${questions.length} questions correct (${percentage}%)`;
+
+            // Adjust back button position to match the start of the card on the right
+            // Adjust back button position to the left of the card
+// Move back button 30% closer to the right of the card
+// Move back button 0.5 cm (5px) down
+const cardRect = document.getElementById('cardContainer').getBoundingClientRect();
+const button = document.getElementById('backButton');
+button.style.top = `${cardRect.top + 5}px`;
+button.style.left = `${cardRect.left - button.offsetWidth - 10 + (cardRect.width * 0.45)}px`;
+
+
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Learning Assistant</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: black;
+      color: #fff;
+      margin: 0;
+    }
+    .video-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+    }
+    .overlay {
+      background: rgba(0, 0, 0, 0.6);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+    .header {
+      text-align: center;
+      padding: 50px 20px;
+      position: relative;
+      z-index: 1;
+    }
+    .header h1 {
+      font-size: 48px;
+      margin-bottom: 10px;
+    }
+    .header p {
+      font-size: 18px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .study-container {
+      background: rgba(255, 255, 255, 0.9);
+      padding: 20px 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      width: 800px;
+      margin: 20px auto;
+      color: #020202;
+      position: relative;
+      z-index: 1;
+    }
+    .study-container h2 {
+      text-align: center;
+      color: #444;
+      margin-bottom: 20px;
+    }
+    .form-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    .form-row label {
+      flex: 1;
+      font-weight: bold;
+      margin-right: 10px;
+    }
+    .form-row input, .form-row select {
+      flex: 3;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+    .form-row input[type="text"] {
+      width: 100%;
+    }
+    .study-container button {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      background: #f76b1c;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s;
+      margin-top: 20px;
+    }
+    .study-container button:hover {
+      background: #e55b0c;
+    }
+    .stats {
+      text-align: center;
+      margin: 40px 0;
+    }
+    .stats div {
+      display: inline-block;
+      margin: 0 20px;
+    }
+    .stats div img {
+      width: 80px;
+      height: 80px;
+    }
+    .stats div p {
+      font-size: 16px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<video class="video-background" autoplay muted loop>
+  <source src="video.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
+<div class="overlay"></div>
+
+<div class="header">
+  <h1>Welcome to Your AI Learning Assistant</h1>
+  <p>Customize your learning journey with personalized video content. Select your subject, level, and topic to get the best educational resources powered by AI.</p>
+</div>
+
+<div class="study-container">
+  <h2>Build Your Personalized Learning Plan</h2>
+  <form id="studyForm">
+    <div class="form-row">
+      <label for="Subject">Subject</label>
+      <select id="Subject" required>
+        <option value="">Select your Subject</option>
+        <option value="Visual Arts">Visual Arts</option>
+        <option value="Performing Arts">Performing Arts</option>
+        <option value="Coding">Coding</option>
+        <option value="Financial Literacy">Financial Literacy</option>
+        <option value="Science">Science</option>
+      </select>
+      
+    </div>
+    <div class="form-row">
+      <label for="level">Level</label>
+      <select id="level" required>
+        <option value="">Select your level</option>
+        <option value="Beginner">Beginner</option>
+        <option value="Intermediate">Intermediate</option>
+        <option value="Advanced">Advanced</option>
+      </select>
+    </div>
+    <div class="form-row">
+      <label for="topic">Topic</label>
+      <input type="text" id="topic" placeholder="Enter the specific topic (e.g., Algebra, Thermodynamics)" required>
+    </div>
+    <button type="button" onclick="window.location.href='video.html';">Generate Learning Plan</button>
+  </form>
+</div>
+
+<div class="stats">
+  <div>
+    <img src="https://img.icons8.com/clouds/100/learning.png" alt="Generated Plans">
+    <p>Generated Learning Plans</p>
+  </div>
+  <div>
+    <img src="https://img.icons8.com/fluency/100/artificial-intelligence.png" alt="AI-Powered Resources">
+    <p>AI-Powered Video Resources</p>
+  </div>
+  <div>
+    <img src="https://img.icons8.com/emoji/100/star-struck.png" alt="Student Satisfaction">
+    <p>High Student Satisfaction</p>
+  </div>
+</div>
+
+<script>
+  document.getElementById('studyForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const subject = document.getElementById('Subject').value;
+    const level = document.getElementById('level').value;
+    const topic = document.getElementById('topic').value;
+    
+    if (subject && level && topic) {
+      alert(`Generating personalized video content for:\nSubject: ${subject}\nLevel: ${level}\nTopic: ${topic}`);
+    } else {
+      alert('Please fill out all fields.');
+    }
+  });
+</script>
+
+</body>
+</html>
